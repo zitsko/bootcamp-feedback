@@ -1,9 +1,51 @@
 <?php include 'inc/header.php'; ?>
 
+<!-- Define constants for form input and error handling -->
+<?php 
+$name = $email = $body = '';
+$nameErr = $emailErr = $bodyErr = '';
+
+    //Form Submit
+    if(isset($_POST['submit'])){
+
+      //Name validation
+      if(empty($_POST['name'])){
+        $nameErr = 'Name is required';
+      } else {
+        $name = filter_input(INPUT_POST, 'name',
+        FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+      }
+
+         //Email validation
+         if(empty($_POST['email'])){
+          $emailErr = 'Email is required';
+        } else {
+          $email = filter_input(INPUT_POST, 'email',
+          FILTER_SANITIZE_EMAIL);
+        }
+
+        //Body validation
+        if(empty($_POST['body'])){
+          $bodyErr = 'Feedback is required';
+        } else {
+          $body = filter_input(INPUT_POST, 'body',
+          FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        }
+
+        echo $bodyErr;
+        echo $body;
+    
+    }
+?>
+
     <img src="/bootcamp-feedback/img/logo.png" class="w-25 mb-3" alt="">
     <h2>Feedback</h2>
     <p class="lead text-center">Leave feedback for Traversy Media</p>
-    <form action="" class="mt-4 w-75">
+
+    <form 
+      action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" 
+      method="POST" 
+      class="mt-4 w-75">
       <div class="mb-3">
         <label for="name" class="form-label">Name</label>
         <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name">
